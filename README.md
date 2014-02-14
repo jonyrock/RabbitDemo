@@ -1,0 +1,4 @@
+RabbitDemo
+==========
+
+OpenGL lightning demo
