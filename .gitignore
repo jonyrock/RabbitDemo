@@ -1,0 +1,13 @@
+# BUILD
+*.o
+rabbitDemo
+
+# CMAKE
+CMakeCache.txt
+cmake_install.cmake
+CMakeLists.txt
+Makefile
+CMakeFiles/*
+
+# IDE
+*.sublime-*
