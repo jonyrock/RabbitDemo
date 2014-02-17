@@ -21,7 +21,6 @@ using namespace glm;
 
 int GLinit() {
 
-
     if (!glfwInit()) {
         cerr << "Failed to initialize GLFW" << endl;
         return -1;
