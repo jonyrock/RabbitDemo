@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 
 #include <iostream>
+
 using namespace std;
 
 class LightNavigation {
@@ -27,13 +28,13 @@ public:
     }
 
     inline void windowsIterate() {
-        if (glfwGetKey(GLFW_KEY_KP_ADD) == GLFW_PRESS)
-            _ts -= 0.1;
-        if (glfwGetKey(GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
-            _ts += 0.1;
-        glUniform1f(_textureScaleId, _ts);
+        // if (glfwGetKey(GLFW_KEY_KP_ADD) == GLFW_PRESS)
+        //     _ts -= 0.1;
+        // if (glfwGetKey(GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS)
+        //     _ts += 0.1;
+        // glUniform1f(_textureScaleId, _ts);
 
-        updateParams();
+        // updateParams();
     }
     
 private:
@@ -41,13 +42,9 @@ private:
     inline void updateParams() {
         
     }
-        
-    
 
     inline void draw() {
         
     }
-
-
 
 };

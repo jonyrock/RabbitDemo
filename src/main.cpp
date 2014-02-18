@@ -1,13 +1,11 @@
 #include "objloader.h"
 #include "shader.h"
 
-#include "figures/geom.h"
-#include "figures/textures.h"
+#include "geom.h"
+#include "textures.h"
 #include "camera.h"
 #include "lightNavigation.h"
 
-
-#include <GL/glfw.h>
 #include <GL/glew.h>
 
 #include <glm/glm.hpp>
@@ -16,43 +14,15 @@
 #include <iostream>
 #include <vector>
 
+#include <unistd.h>
+
 using namespace std;
 using namespace glm;
 
-int GLinit() {
-
-    if (!glfwInit()) {
-        cerr << "Failed to initialize GLFW" << endl;
-        return -1;
-    }
-
-    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
-
-    if (!glfwOpenWindow(1024, 768, 0, 0, 0, 0, 32, 0, GLFW_WINDOW)) {
-        cerr << "Failed to open GLFW window." << endl;
-        glfwTerminate();
-        return -1;
-    }
-    if (glewInit() != GLEW_OK) {
-        cerr << "Failed to initialize GLEW" << endl;
-        return -1;
-    }
-
-    glfwSetWindowTitle("Geometry party");
-    glfwEnable(GLFW_STICKY_KEYS);
-
-    glEnable(GL_DEPTH_TEST);
-
-    glDepthFunc(GL_LESS);
-
-    return 0;
-
-}
+int GLinit();
 
 int main(void) {
-
+    
     if (GLinit() != 0) {
         return 1;
     }
@@ -100,7 +70,7 @@ int main(void) {
     vector<vec3> rabbitVertices;
     vector<vec3> rabbitNormals;
 
-    if(!loadOBJ("recourses/my_rabbit_n.obj", rabbitVertices, rabbitNormals)){
+    if(!loadOBJ("resources/my_rabbit_n.obj", rabbitVertices, rabbitNormals)){
         return -1;
     }
 
@@ -154,3 +124,37 @@ int main(void) {
 
 }
 
+
+
+int GLinit() {
+
+    if (!glfwInit()) {
+        cerr << "Failed to initialize GLFW" << endl;
+        return -1;
+    }
+
+    glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
+    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
+
+    if (!glfwOpenWindow(1024, 768, 0, 0, 0, 0, 32, 0, GLFW_WINDOW)) {
+        cerr << "Failed to open GLFW window." << endl;
+        glfwTerminate();
+        return -1;
+    }
+    
+    if (glewInit() != GLEW_OK) {
+        cerr << "Failed to initialize GLEW" << endl;
+        return -1;
+    }
+
+    glfwSetWindowTitle("Geometry party");
+    glfwEnable(GLFW_STICKY_KEYS);
+
+    glEnable(GL_DEPTH_TEST);
+
+    glDepthFunc(GL_LESS);
+
+    return 0;
+
+}

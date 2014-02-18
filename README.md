@@ -1,15 +1,14 @@
 RabbitDemo
 ==========
 
-OpenGL lightning demo
+OpenGL lightning demo. Enjoy.
 
-
-##Build 
+##Build
 ```
-apt-get install cmake 
+apt-get install cmake
 mkdir build
 cd build
-cmake ../
+cmake ..
 make
 ./rabbitDemo
 ```
