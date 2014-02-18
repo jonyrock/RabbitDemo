@@ -29,6 +29,9 @@ int main(void) {
 
     // GLSL init
     GLuint programId = LoadShaders("src/simple.vert", "src/simple.frag");
+    if(programId == 0) {
+        exit(1);
+    }
 
     // Uniform
     GLuint mvpId = glGetUniformLocation(programId, "MVP");
@@ -36,6 +39,7 @@ int main(void) {
 
     // Attributes
     glUseProgram(programId);
+    GLuint vertexPosition_modelspaceID = glGetAttribLocation(programId, "vertexPosition_modelspace");
 
     // View init
     Camera camera(0, 10, 10);
@@ -78,7 +82,7 @@ int main(void) {
     glGenBuffers(1, &rabbitVertecesBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, rabbitVertecesBuffer);
     glBufferData(GL_ARRAY_BUFFER, rabbitVertices.size() * sizeof (vec3), &rabbitVertices[0], GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexPosition_modelspaceID);
 
     glClearColor(0.9f, 0.9f, 0.9f, 0.0f);
 
@@ -90,32 +94,33 @@ int main(void) {
 
         MVP = Projection * View * Model;
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUniformMatrix4fv(mvpId, 1, GL_FALSE, &MVP[0][0]);
+        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // glUniformMatrix4fv(mvpId, 1, GL_FALSE, &MVP[0][0]);
 
-        /** PLANE **/
-        glUniform3f(colorId, 1.0, 1.0, 1.0);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, planeVerticesBuffer);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-        glDrawArrays(GL_TRIANGLES, 0, 2 * 3);
-
-
-        /** RABBIT **/
-        glUniform3f(colorId, .5f, .5f, .5f);
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, rabbitVertecesBuffer);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-        glDrawArrays(GL_TRIANGLES, 0, rabbitVertices.size() * 3);
+        // /** PLANE **/
+        // glUniform3f(colorId, 1.0, 1.0, 1.0);
+        // glEnableVertexAttribArray(0);
+        // glBindBuffer(GL_ARRAY_BUFFER, planeVerticesBuffer);
+        // glVertexAttribPointer(vertexPosition_modelspaceID, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+        // glDrawArrays(GL_TRIANGLES, 0, 2 * 3);
 
 
-        // Swap buffers
-        glfwSwapBuffers();
+        // /** RABBIT **/
+        // glUniform3f(colorId, .5f, .5f, .5f);
+        // glEnableVertexAttribArray(0);
+        // glBindBuffer(GL_ARRAY_BUFFER, rabbitVertecesBuffer);
+        // glVertexAttribPointer(vertexPosition_modelspaceID, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+        // glDrawArrays(GL_TRIANGLES, 0, rabbitVertices.size() * 3);
 
-        if (glfwGetKey(GLFW_KEY_ESC) == GLFW_PRESS)
-            break;
-        if (!glfwGetWindowParam(GLFW_OPENED))
-            break;
+        // // unbind vertexPosition_modelspace for sure
+        // glDisableVertexAttribArray(vertexPosition_modelspaceID);
+        
+        // glfwSwapBuffers();
+
+        // if (glfwGetKey(GLFW_KEY_ESC) == GLFW_PRESS)
+        //     break;
+        // if (!glfwGetWindowParam(GLFW_OPENED))
+        //     break;
 
     }
 
