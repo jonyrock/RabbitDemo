@@ -4,12 +4,11 @@ build/*
 rabbitDemo
 
 # CMAKE
-CMakeCache.txt
-cmake_install.cmake
-CMakeLists.txt
-Makefile
-CMakeLists
-CMakeFiles/*
+*CMakeCache.txt
+*cmake_install.cmake
+*Makefile
+*CMakeLists
+*CMakeFiles/*
 
 # IDE
 *.sublime-*

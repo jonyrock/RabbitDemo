@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++0x    CMakeFiles/rabbitDemo.dir/camera.cpp.o CMakeFiles/rabbitDemo.dir/geom.cpp.o CMakeFiles/rabbitDemo.dir/shader.cpp.o CMakeFiles/rabbitDemo.dir/main.cpp.o CMakeFiles/rabbitDemo.dir/textures.cpp.o CMakeFiles/rabbitDemo.dir/objloader.cpp.o  -o ../rabbitDemo -rdynamic -lGL -lGLEW -lglfw 
