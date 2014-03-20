@@ -3,8 +3,8 @@ RabbitDemo
 
 OpenGL lightning demo. Enjoy.
 
-Plz use http://www.debian.org/distrib/packages.en.html#search_contents in order to
-find packages
+##Install Packages
+sudo apt-get install freeglut3 freeglut3-dev libglew-dev libglm-dev
 
 ##Build & Run
 ```
