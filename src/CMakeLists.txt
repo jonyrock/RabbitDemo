@@ -4,7 +4,7 @@ set(EXE "rabbitDemo")
 
 file(GLOB SRCS *.cpp)
 
-set(OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/..)
+set(OUTPUT_DIR ../)
 set(EXECUTABLE_OUTPUT_PATH ${OUTPUT_DIR} CACHE PATH "Build directory" FORCE)
 
 add_executable(${EXE} ${SRCS})

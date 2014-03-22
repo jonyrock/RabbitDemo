@@ -16,3 +16,5 @@ find_package(GLFW REQUIRED)
 include_directories(include)
 
 add_subdirectory(src)
+
+file(COPY resources DESTINATION .)
