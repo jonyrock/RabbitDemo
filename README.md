@@ -8,10 +8,9 @@ OpenGL lightning demo. Enjoy.
 
 ##Build & Run
 ```
-mkdir build 
-cd build 
+mkdir build
+cd build
 cmake ..
 make
-cd ..
 ./rabbitDemo
 ```
