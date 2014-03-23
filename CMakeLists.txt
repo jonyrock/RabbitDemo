@@ -13,8 +13,10 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(GLM REQUIRED)
 find_package(GLFW REQUIRED)
+
 include_directories(include)
+include_directories(libs/AntTweakBar/include/)
 
 add_subdirectory(src)
 
-file(COPY resources DESTINATION .)
+file(COPY res DESTINATION .)
