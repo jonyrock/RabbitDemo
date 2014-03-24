@@ -1,56 +1,57 @@
 
-#include "AntTweakBar.h"
+#include "settings.h"
+#include "userInterface.h"
+#include "scene.h"
 
 #include <GL/glew.h>
 #include <GL/glfw.h>
-
 #include <iostream>
 
 using namespace std;
 
-int GLinit();
+int init();
 
 int main(int argc, char ** args) {
 	
-	GLinit();
+	if(init() != 0)
+		return 1;
 	
-	TwInit(TW_OPENGL_CORE, NULL);
+	Settings settings;
+	UserInterface ui(settings);
+	Scene scene(settings);
+	ui.init();
+	scene.init();
 	
-	TwBar *myBar;
-	myBar = TwNewBar("NameOfMyTweakBar");
-
+	while (glfwGetWindowParam(GLFW_OPENED) && !glfwGetKey(GLFW_KEY_ESC)) {
+		scene.update();
+		ui.update();
+		glfwSwapBuffers();
+	}
+	
+	glfwTerminate();
+	
 }
 
 
-int GLinit() {
-
+int init() {
 	if (!glfwInit()) {
 		cerr << "Failed to initialize GLFW" << endl;
-		return -1;
+		return 1;
 	}
 
-	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
-
-	if (!glfwOpenWindow(1024, 768, 0, 0, 0, 0, 32, 0, GLFW_WINDOW)) {
+	if (!glfwOpenWindow(500, 500, 50, 50, 50, 50, 32, 0, GLFW_WINDOW)) {
 		cerr << "Failed to open GLFW window." << endl;
 		glfwTerminate();
-		return -1;
+		return 2;
 	}
 	
 	if (glewInit() != GLEW_OK) {
 		cerr << "Failed to initialize GLEW" << endl;
-		return -1;
+		return 3;
 	}
-
-	glfwSetWindowTitle("Geometry party");
+	
+	glfwSetWindowTitle("Rabbit Demo");
 	glfwEnable(GLFW_STICKY_KEYS);
-
-	glEnable(GL_DEPTH_TEST);
-
-	glDepthFunc(GL_LESS);
-
+	
 	return 0;
-
 }

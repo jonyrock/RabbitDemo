@@ -170,7 +170,7 @@ int CTwGraphOpenGLCore::Init()
 
     // Create line/rect shaders
     const GLchar *lineRectVS[] = {
-        "#version 150 core\n"
+        "#version 140\n"
         "in vec3 vertex;"
         "in vec4 color;"
         "out vec4 fcolor;"
@@ -181,7 +181,7 @@ int CTwGraphOpenGLCore::Init()
     CompileShader(m_LineRectVS);
 
     const GLchar *lineRectFS[] = {
-        "#version 150 core\n"
+        "#version 140\n"
         "precision highp float;"
         "in vec4 fcolor;"
         "out vec4 outColor;"
@@ -212,7 +212,7 @@ int CTwGraphOpenGLCore::Init()
 
     // Create triangles shaders
     const GLchar *triVS[] = {
-        "#version 150 core\n"
+        "#version 140\n"
         "uniform vec2 offset;"
         "uniform vec2 wndSize;"
         "in vec2 vertex;"
@@ -225,7 +225,7 @@ int CTwGraphOpenGLCore::Init()
     CompileShader(m_TriVS);
 
     const GLchar *triUniVS[] = {
-        "#version 150 core\n"
+        "#version 140\n"
         "uniform vec2 offset;"
         "uniform vec2 wndSize;"
         "uniform vec4 color;"
@@ -259,7 +259,7 @@ int CTwGraphOpenGLCore::Init()
     m_TriUniLocationColor = _glGetUniformLocation(m_TriUniProgram, "color");
 
     const GLchar *triTexFS[] = {
-        "#version 150 core\n"
+        "#version 140\n"
         "precision highp float;"
         "uniform sampler2D tex;"
         "in vec2 fuv;"
@@ -278,7 +278,7 @@ int CTwGraphOpenGLCore::Init()
     CompileShader(m_TriTexFS);
 
     const GLchar *triTexVS[] = {
-        "#version 150 core\n"
+        "#version 140\n"
         "uniform vec2 offset;"
         "uniform vec2 wndSize;"
         "in vec2 vertex;"
@@ -293,7 +293,7 @@ int CTwGraphOpenGLCore::Init()
     CompileShader(m_TriTexVS);
 
     const GLchar *triTexUniVS[] = {
-        "#version 150 core\n"
+        "#version 140\n"
         "uniform vec2 offset;"
         "uniform vec2 wndSize;"
         "uniform vec4 color;"

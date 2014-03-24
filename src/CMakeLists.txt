@@ -9,8 +9,7 @@ set(EXECUTABLE_OUTPUT_PATH ${OUTPUT_DIR} CACHE PATH "Build directory" FORCE)
 
 add_executable(${EXE} ${SRCS})
 
-
-# LIBS 
+#LIBS 
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/libs/")
 set(AntTweakBar "${PROJECT_BINARY_DIR}/libs/libAntTweakBar.a")
 add_custom_command(
@@ -29,7 +28,7 @@ add_custom_target(
 	DEPENDS ${AntTweakBar}
 )
 
-target_link_libraries(${EXE} glfw GL GLEW)
 target_link_libraries(${EXE} ${AntTweakBar})
+target_link_libraries(${EXE} GL X11 GLEW glfw)
 
 add_dependencies(${EXE} AntTweakBar)
