@@ -7,7 +7,7 @@
 class Shaders {
 	const Settings& settings;
 	const WorldState& worldState;
-	GLuint programId;
+	
 	
 public:
 		
@@ -18,6 +18,8 @@ public:
 	   worldState(worldState) {
 	}
 	void init();
+	
+	GLuint programId;
 	
 	GLuint mvpId;
 	GLuint colorId;

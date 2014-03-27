@@ -25,7 +25,9 @@ void Shaders::init() {
 	if(programId == 0)
 		exit(1);
 	
-	mvpId = glGetUniformLocation(programId, "MVP");
+	cout << "XXX: " << mvpId << endl;
+	// mvpId = glGetUniformLocation(programId, "MVP");
+	cout << "XXX: " << mvpId << endl;
 	colorId = glGetUniformLocation(programId, "vertexColor");
 	vertexPosition_modelspaceID = glGetAttribLocation(programId, "vertexPosition_modelspace");
 }

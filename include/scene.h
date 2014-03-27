@@ -11,12 +11,10 @@ class Scene {
 	Shaders shaders;
 	WorldState worldState;
 	
-	GLuint planeVerticesBuffer;
+	GLuint planeVertexBuffer;
 	Camera camera;
 	glm::mat4 Projection;
 	glm::mat4 View;
-	
-	GLuint vertexbuffer;
 	
 public:
 	Scene(const Settings& settings): 
