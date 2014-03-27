@@ -14,9 +14,6 @@
 using namespace std;
 using namespace glm;
 
-void print(vec3 v) {
-	cout << "vec3(" << v[0] << ", " << v[1] << ", " << v[2] << ")";
-}
 
 void fillPlane(vector<vec3>& vertices) {
 

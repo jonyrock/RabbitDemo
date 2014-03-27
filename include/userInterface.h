@@ -15,5 +15,4 @@ private:
 	TwBar* bar;
 	void addLightTypes();
 	void addFillTypes();
-	
 };

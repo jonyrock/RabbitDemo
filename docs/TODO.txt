@@ -1,0 +1,3 @@
+***TODO***
+* cmake dependencies to shader files in res
+* draw the plane

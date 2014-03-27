@@ -3,7 +3,7 @@
 
 #include "GL/glfw.h"
 
-void Camera::windowsIterate() {
+void Camera::update() {
 
 	if (glfwGetKey('W') == GLFW_PRESS) {
 		zoom(-0.3);

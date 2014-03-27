@@ -3,6 +3,7 @@
 #include "userInterface.h"
 #include "scene.h"
 
+
 #include <GL/glew.h>
 #include <GL/glfw.h>
 #include <iostream>
@@ -12,24 +13,20 @@ using namespace std;
 int init();
 
 int main(int argc, char ** args) {
-	
 	if(init() != 0)
 		return 1;
-	
 	Settings settings;
 	UserInterface ui(settings);
 	Scene scene(settings);
+
 	ui.init();
 	scene.init();
-	
 	while (glfwGetWindowParam(GLFW_OPENED) && !glfwGetKey(GLFW_KEY_ESC)) {
 		scene.update();
 		ui.update();
 		glfwSwapBuffers();
 	}
-	
 	glfwTerminate();
-	
 }
 
 

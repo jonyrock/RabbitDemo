@@ -24,8 +24,7 @@ file(COPY res DESTINATION .)
 add_subdirectory(libs)
 add_subdirectory(src)
 
-add_executable(${EXE} $<TARGET_OBJECTS:src> )
+add_executable(${EXE} $<TARGET_OBJECTS:src>)
 
 target_link_libraries(${EXE} libs)
 target_link_libraries(${EXE} GL X11 GLEW glfw)
-

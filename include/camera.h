@@ -34,10 +34,11 @@ public:
 		initVars();
 	}
 
-	inline void updateView(mat4& view) {
-		view = lookAt(_cameraPosition, vec3(0, 0, 0), vec3(0, 1, 0));
+	inline mat4 getView() {
+		mat4 view = lookAt(_cameraPosition, vec3(0, 0, 0), vec3(0, 1, 0));
 		view = view * rotate(mat4(1.0f), -_heading, vec3(1, 0, 0));
 		view = view * rotate(mat4(1.0f), -_pitch, vec3(0, 1, 0));
+		return view;
 	}
 
 	inline void zoom(float scale = 1) {
@@ -63,6 +64,6 @@ public:
 		 _heading += deg / 5.0f;
 	}
 
-	void windowsIterate();
+	void update();
 
 };
