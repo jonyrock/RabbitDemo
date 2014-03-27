@@ -1,6 +1,8 @@
 #pragma once
 #include "settings.h"
 #include "worldState.h"
+
+// TODO: remove ol glfw
 #include <GL/glew.h>
 
 

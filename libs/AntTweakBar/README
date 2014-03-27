@@ -1,1 +1,4 @@
-It is fork of original library
+It is a fork of original library.
+The difference only is that it is possible to use 
+glsl version 1.30 instead of 1.50.
+So that it works with intel videocards.

@@ -1,5 +1,6 @@
 #pragma once
 
+// TODO: remove ol glfw
 #include <GL/glfw.h>
 
 #include <glm/glm.hpp>

@@ -4,7 +4,7 @@ RabbitDemo
 OpenGL lightning demo. Enjoy.
 
 ##Install Packages
-`sudo apt-get install libglm-dev libglfw-dev`
+`sudo apt-get install libglew-dev libglm-dev`
 
 ##Build & Run
 ```

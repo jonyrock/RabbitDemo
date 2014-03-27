@@ -1,6 +1,7 @@
 #pragma once
 
-#include <GL/glfw.h>
+// TODO: remove ol glfw
+#include <GL/glfw.h> 
 
 #include <glm/glm.hpp>
 #include <vector>
