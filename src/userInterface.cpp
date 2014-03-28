@@ -1,7 +1,9 @@
+
 #include "userInterface.h"
-#include "AntTweakBar.h"
 #include "settings.h"
-#include <GLFW/glfw3.h>
+
+#include "GLFW/glfw3.h"
+#include "AntTweakBar.h"
 
 void UserInterface::addLightTypes() {
 	TwEnumVal types[] = { 
@@ -13,7 +15,7 @@ void UserInterface::addLightTypes() {
 }
 
 void UserInterface::addFillTypes() {
-	TwEnumVal types[] = { 
+	TwEnumVal types[] = {
 		{FT_FLAT, "flat"}, 
 		{FT_PER_VERTEX, "per vertex"},
 		{FT_PER_FRAGMENT, "per fragment"}

@@ -2,9 +2,8 @@
 #include "settings.h"
 #include "worldState.h"
 
-// TODO: remove ol glfw
 #include <GL/glew.h>
-
+#include <GL/gl.h>
 
 class Shaders {
 	const Settings& settings;
@@ -25,7 +24,7 @@ public:
 	
 	GLuint mvpId;
 	GLuint colorId;
-	GLuint vertexPosition_modelspaceID;
+	GLuint vertexPosition_modelspaceId;
 private:
 	GLuint LoadShaders(const char* verPath, const char* fragPath);
 	

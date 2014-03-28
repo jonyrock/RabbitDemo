@@ -3,7 +3,6 @@
 #include "shaders.h"
 #include "worldState.h"
 #include "camera.h"
-#include <GL/glew.h>
 #include <glm/glm.hpp>
 
 class Scene {

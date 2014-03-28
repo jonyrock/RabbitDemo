@@ -1,10 +1,10 @@
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include "GLFW/glfw3.h"
+
 #include "scene.h"
 #include "settings.h"
 #include "userInterface.h"
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 
 #include <stdio.h>
 #include <stdlib.h>

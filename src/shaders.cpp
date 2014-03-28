@@ -25,7 +25,7 @@ void Shaders::init() {
 	
 	// mvpId = glGetUniformLocation(programId, "MVP");
 	colorId = glGetUniformLocation(programId, "vertexColor");
-	vertexPosition_modelspaceID = glGetAttribLocation(programId, "vertexPosition_modelspace");
+	vertexPosition_modelspaceId = glGetAttribLocation(programId, "vertexPosition_modelspace");
 }
 
 GLuint Shaders::LoadShaders(const char * vertex_file_path, 

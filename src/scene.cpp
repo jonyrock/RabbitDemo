@@ -1,3 +1,5 @@
+#include <GL/glew.h>
+
 #include "scene.h"
 #include "shaders.h"
 #include "camera.h"
@@ -8,13 +10,10 @@
 #include <iostream>
 #include "tools.h"
 
-#include <GL/gl.h>
-
 using namespace std;
 using namespace glm;
 
 void Scene::init() {
-	
 	
 	// Dark blue background
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -26,7 +25,7 @@ void Scene::init() {
 	// Create and compile our GLSL program from the shaders
 	shaders.init();
 
-	static const GLfloat g_vertex_buffer_data[] = { 
+	const GLfloat g_vertex_buffer_data[] = { 
 		-1.0f, -1.0f, 0.0f,
 		 1.0f, -1.0f, 0.0f,
 		 0.0f,  1.0f, 0.0f,
