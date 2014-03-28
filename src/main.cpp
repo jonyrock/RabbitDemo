@@ -1,97 +1,116 @@
+// Include standard headers
+#include <stdio.h>
+#include <stdlib.h>
 
-#include "settings.h"
-#include "userInterface.h"
-#include "scene.h"
-
-
+// Include GLEW
 #include <GL/glew.h>
-#include <GL/glfw.h>
-#include <iostream>
 
-using namespace std;
+// Include GLFW
+#include <GLFW/glfw3.h>
+GLFWwindow* window;
 
-int init();
+// Include GLM
+#include <glm/glm.hpp>
+using namespace glm;
 
-int main(int argc, char ** args) {
-	if(init() != 0)
-		return 1;
-	
-	Settings settings;
-	// UserInterface ui(settings);
-	Scene scene(settings);
+#include "shader.hpp"
 
-	// ui.init();
-	scene.init();
-	
-	/////////////////////////////////////////
-	
-	// An array of 3 vectors which represents 3 vertices
-	static const GLfloat g_vertex_buffer_data[] = {
-	   -1.0f, -1.0f, 0.0f,
-	   1.0f, -1.0f, 0.0f,
-	   0.0f,  1.0f, 0.0f,
+int main( void )
+{
+	// Initialise GLFW
+	if( !glfwInit() )
+	{
+		fprintf( stderr, "Failed to initialize GLFW\n" );
+		return -1;
+	}
+
+	// glfwWindowHint(GLFW_SAMPLES, 4);
+	// glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	// glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	// Open a window and create its OpenGL context
+	window = glfwCreateWindow( 1024, 768, "Tutorial 02 - Red triangle", NULL, NULL);
+	if( window == NULL ){
+		fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+		glfwTerminate();
+		return -1;
+	}
+	glfwMakeContextCurrent(window);
+
+	// Initialize GLEW
+	glewExperimental = true; // Needed for core profile
+	if (glewInit() != GLEW_OK) {
+		fprintf(stderr, "Failed to initialize GLEW\n");
+		return -1;
+	}
+
+	// Ensure we can capture the escape key being pressed below
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+
+	// Dark blue background
+	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+
+	GLuint VertexArrayID;
+	glGenVertexArrays(1, &VertexArrayID);
+	glBindVertexArray(VertexArrayID);
+
+	// Create and compile our GLSL program from the shaders
+	GLuint programID = LoadShaders("res/simple.vert", "res/simple.frag");
+
+
+	static const GLfloat g_vertex_buffer_data[] = { 
+		-1.0f, -1.0f, 0.0f,
+		 1.0f, -1.0f, 0.0f,
+		 0.0f,  1.0f, 0.0f,
 	};
-	
-	// This will identify our vertex buffer
-	GLuint vertexbuffer;
-	 
-	// Generate 1 buffer, put the resulting identifier in vertexbuffer
-	glGenBuffers(1, &vertexbuffer);
-	 
-	// The following commands will talk about our 'vertexbuffer' buffer
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	 
-	// Give our vertices to OpenGL.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	/////////////////////////////////////////
 
-	
-	while (glfwGetWindowParam(GLFW_OPENED) && !glfwGetKey(GLFW_KEY_ESC)) {
-		scene.update();
-		// ui.update();
-		
+	GLuint vertexbuffer;
+	glGenBuffers(1, &vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+	do{
+
+		// Clear the screen
+		glClear( GL_COLOR_BUFFER_BIT );
+
+		// Use our shader
+		glUseProgram(programID);
+
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 		glVertexAttribPointer(
-		   0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-		   3,                  // size
-		   GL_FLOAT,           // type
-		   GL_FALSE,           // normalized?
-		   0,                  // stride
-		   (void*)0            // array buffer offset
+			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+			3,                  // size
+			GL_FLOAT,           // type
+			GL_FALSE,           // normalized?
+			0,                  // stride
+			(void*)0            // array buffer offset
 		);
-		 
+
 		// Draw the triangle !
-		glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0; 3 vertices total -> 1 triangle
-		 
+		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
+
 		glDisableVertexAttribArray(0);
-		
-		glfwSwapBuffers();
-	}
+
+		// Swap buffers
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+
+	} // Check if the ESC key was pressed or the window was closed
+	while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+		   glfwWindowShouldClose(window) == 0 );
+
+	// Cleanup VBO
+	glDeleteBuffers(1, &vertexbuffer);
+	glDeleteVertexArrays(1, &VertexArrayID);
+	glDeleteProgram(programID);
+
+	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
+
 	return 0;
 }
 
-int init() {
-	if (!glfwInit()) {
-		cerr << "Failed to initialize GLFW" << endl;
-		return 1;
-	}
-
-	if (!glfwOpenWindow(500, 500, 50, 50, 50, 50, 32, 0, GLFW_WINDOW)) {
-		cerr << "Failed to open GLFW window." << endl;
-		glfwTerminate();
-		return 2;
-	}
-	
-	if (glewInit() != GLEW_OK) {
-		cerr << "Failed to initialize GLEW" << endl;
-		return 3;
-	}
-	
-	glfwSetWindowTitle("Rabbit Demo");
-	glfwEnable(GLFW_STICKY_KEYS);
-	
-	return 0;
-}

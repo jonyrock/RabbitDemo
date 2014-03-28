@@ -15,8 +15,6 @@
 
 using namespace std;
 
-GLuint LoadShaders(const char* verPath, const char* fragPath);
-
 void Shaders::init() {
 	programId = LoadShaders(
 		"res/simple.vert",
@@ -32,9 +30,7 @@ void Shaders::init() {
 	vertexPosition_modelspaceID = glGetAttribLocation(programId, "vertexPosition_modelspace");
 }
 
-
-
-GLuint LoadShaders(const char * vertex_file_path, 
+GLuint Shaders::LoadShaders(const char * vertex_file_path, 
 	const char * fragment_file_path) {
 
 	// Create the shaders

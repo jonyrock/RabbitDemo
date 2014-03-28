@@ -1,34 +1,34 @@
 
 #include "camera.h"
 
-#include "GL/glfw.h"
+#include <GLFW/glfw3.h>
 
 void Camera::update() {
 
-	if (glfwGetKey('W') == GLFW_PRESS) {
-		zoom(-0.3);
-	}
+	// if (glfwGetKey('W') == GLFW_PRESS) {
+	// 	zoom(-0.3);
+	// }
 
-	if (glfwGetKey('S') == GLFW_PRESS) {
-		zoom(0.3);
-	}
+	// if (glfwGetKey('S') == GLFW_PRESS) {
+	// 	zoom(0.3);
+	// }
 
-	int myX = 0;
-	int myY = 0;
-	glfwGetMousePos(&myX, &myY);
-	int xDiff = myX - _xBefore;
-	int yDiff = myY - _yBefore;
-	_xBefore = myX;
-	_yBefore = myY;
+	// int myX = 0;
+	// int myY = 0;
+	// glfwGetMousePos(&myX, &myY);
+	// int xDiff = myX - _xBefore;
+	// int yDiff = myY - _yBefore;
+	// _xBefore = myX;
+	// _yBefore = myY;
 
-	if (glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-		rotateX(-xDiff);
-		rotateY(-yDiff);
-	}
+	// if (glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+	// 	rotateX(-xDiff);
+	// 	rotateY(-yDiff);
+	// }
 
-	int myWheel = glfwGetMouseWheel();
-	int wheelDiff = myWheel - _wheelBefore;
-	zoom(-wheelDiff);
-	_wheelBefore = myWheel;
+	// int myWheel = glfwGetMouseWheel();
+	// int wheelDiff = myWheel - _wheelBefore;
+	// zoom(-wheelDiff);
+	// _wheelBefore = myWheel;
 
 }

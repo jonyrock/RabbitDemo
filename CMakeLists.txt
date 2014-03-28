@@ -24,9 +24,10 @@ add_subdirectory(libs)
 add_subdirectory(src)
 
 add_executable(
-	${EXE} 
+	${EXE}
 	$<TARGET_OBJECTS:src>
 )
 
-target_link_libraries(${EXE} libs)
+target_link_libraries(${EXE} AntTweakBar GLFW_303)
 target_link_libraries(${EXE} GL X11 GLEW)
+target_link_libraries(${EXE} Xxf86vm pthread GLU Xrandr Xext rt Xi)

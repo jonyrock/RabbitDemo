@@ -26,5 +26,7 @@ public:
 	GLuint mvpId;
 	GLuint colorId;
 	GLuint vertexPosition_modelspaceID;
+private:
+	GLuint LoadShaders(const char* verPath, const char* fragPath);
 	
 };

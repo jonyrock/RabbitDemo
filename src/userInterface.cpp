@@ -30,12 +30,12 @@ void UserInterface::init() {
 	
 	TwInit(TW_OPENGL, NULL);
 	
-	glfwSetWindowSizeCallback(windowSizeCB);
-    glfwSetMouseButtonCallback((GLFWmousebuttonfun)TwEventMouseButtonGLFW);
-    glfwSetMousePosCallback((GLFWmouseposfun)TwEventMousePosGLFW);
-    glfwSetMouseWheelCallback((GLFWmousewheelfun)TwEventMouseWheelGLFW);
-    glfwSetKeyCallback((GLFWkeyfun)TwEventKeyGLFW);
-    glfwSetCharCallback((GLFWcharfun)TwEventCharGLFW);
+	// glfwSetWindowSizeCallback(windowSizeCB);
+ //    glfwSetMouseButtonCallback((GLFWmousebuttonfun)TwEventMouseButtonGLFW);
+ //    glfwSetMousePosCallback((GLFWmouseposfun)TwEventMousePosGLFW);
+ //    glfwSetMouseWheelCallback((GLFWmousewheelfun)TwEventMouseWheelGLFW);
+ //    glfwSetKeyCallback((GLFWkeyfun)TwEventKeyGLFW);
+ //    glfwSetCharCallback((GLFWcharfun)TwEventCharGLFW);
 	
 	bar = TwNewBar("Settings");
 	addLightTypes();
