@@ -1,11 +1,7 @@
 #include "userInterface.h"
 #include "AntTweakBar.h"
 #include "settings.h"
-#include <GL/glfw.h>
-
-void GLFWCALL windowSizeCB(int width, int height) {
-    TwWindowSize(width, height);
-}
+#include <GLFW/glfw3.h>
 
 void UserInterface::addLightTypes() {
 	TwEnumVal types[] = { 
@@ -29,30 +25,53 @@ void UserInterface::addFillTypes() {
 void UserInterface::init() {
 	
 	TwInit(TW_OPENGL, NULL);
-	
-	// glfwSetWindowSizeCallback(windowSizeCB);
- //    glfwSetMouseButtonCallback((GLFWmousebuttonfun)TwEventMouseButtonGLFW);
- //    glfwSetMousePosCallback((GLFWmouseposfun)TwEventMousePosGLFW);
- //    glfwSetMouseWheelCallback((GLFWmousewheelfun)TwEventMouseWheelGLFW);
- //    glfwSetKeyCallback((GLFWkeyfun)TwEventKeyGLFW);
- //    glfwSetCharCallback((GLFWcharfun)TwEventCharGLFW);
-	
+
+	int glfwWindowWidth = 0, glfwWindowHeight = 0;
+	glfwGetWindowSize(window, &glfwWindowWidth, &glfwWindowHeight);
+	TwWindowSize(glfwWindowHeight, glfwWindowHeight);
+    bindGLWF2Ant();
+    
 	bar = TwNewBar("Settings");
 	addLightTypes();
 	addFillTypes();
 	
 	TwAddVarRW(bar, "ambient", TW_TYPE_FLOAT, &settings.ambient, 
-               " label='Ambient' ");
+               "label='Ambient' ");
 	TwAddVarRW(bar, "diffuse", TW_TYPE_FLOAT, &settings.diffuse, 
-               " label='Diffuse' ");
+               "label='Diffuse' ");
 	TwAddVarRW(bar, "specular", TW_TYPE_FLOAT, &settings.specular, 
-               " label='Specular' ");
+               "label='Specular' ");
 	TwAddVarRW(bar, "specularPower", TW_TYPE_FLOAT, &settings.specularPower, 
-               " label='Specular power' ");
-	
-	TwAddVarRW(bar, "bgColor", TW_TYPE_COLOR3F, &settings.bgColor, " label='Background color' ");
+               "label='Specular power' ");
+	TwAddVarRW(bar, "bgColor", TW_TYPE_COLOR3F, &settings.bgColor, 
+			   "label='Background color' ");
 }
 
 void UserInterface::update() {
 	TwDraw();
 }
+
+
+// Bind GLWF events to AntTweakBar
+
+static void onGlfwSetWindowSize(GLFWwindow * window, 
+	int width, int height) {
+	TwWindowSize(width, height);
+}
+
+static void onGlfwSetMouseButton(GLFWwindow * window, int button, 
+	int action, int mods) {
+	TwEventMouseButtonGLFW(button, action);
+}
+
+static void onGlfwSetCursorPos(GLFWwindow * window, 
+	double xpos, double ypos) {
+	TwEventMousePosGLFW(xpos, ypos);
+}
+
+void UserInterface::bindGLWF2Ant() {
+	glfwSetWindowSizeCallback(window, onGlfwSetWindowSize);
+	glfwSetMouseButtonCallback(window, onGlfwSetMouseButton);
+	glfwSetCursorPosCallback(window, onGlfwSetCursorPos);
+}
+

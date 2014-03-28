@@ -11,7 +11,7 @@ class Scene {
 	Shaders shaders;
 	WorldState worldState;
 	
-	GLuint planeVertexBuffer;
+	GLuint vertexbuffer;
 	Camera camera;
 	glm::mat4 Projection;
 	glm::mat4 View;
@@ -24,4 +24,5 @@ public:
 	}
 	void init();
 	void update();
+	void terminate();
 };
