@@ -2,7 +2,7 @@
 build/*
 Debug/*
 Release/*
-.settings/*
-.project
-.cproject
+#.settings/*
+#.project
+#.cproject
 .tags

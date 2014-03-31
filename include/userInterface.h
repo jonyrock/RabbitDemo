@@ -11,8 +11,7 @@ class UserInterface {
 public:
 	UserInterface(GLFWwindow* window, Settings& settings): 
 		window(window),
-		settings(settings),
-		bar(NULL){
+		settings(settings){
 	}
 	void init();
 	void update();
