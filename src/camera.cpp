@@ -19,7 +19,7 @@ void Camera::update() {
 //		zoom(-0.3);
 //	}
 //
-	cout << glfwGetKey(settings.window, 'W') << endl;
+//	cout << glfwGetKey(settings.window, 'W') << endl;
 //
 //	if (glfwGetKey(settings.window, 'S') == GLFW_PRESS) {
 //		zoom(0.3);

@@ -55,8 +55,6 @@ void Scene::init() {
 
 void Scene::update() {
 	
-	
-
 	glClearColor(settings.bgColor[0], settings.bgColor[1], settings.bgColor[2],
 		0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
