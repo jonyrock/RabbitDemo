@@ -1,12 +1,9 @@
 #version 130
 
-// Ouput data
+in vec3 vertColor;
+
 out vec3 color;
 
-void main()
-{
-
-	// Output color = red 
-	color = vec3(1,0,0);
-
+void main() {
+	color = vertColor;
 }

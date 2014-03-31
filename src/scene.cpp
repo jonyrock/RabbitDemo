@@ -1,4 +1,5 @@
 #include <GL/glew.h>
+#include <GL/gl.h>
 
 #include "scene.h"
 #include "shaders.h"
@@ -10,63 +11,90 @@
 #include <iostream>
 #include "tools.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace std;
 using namespace glm;
 
 void Scene::init() {
-	
-	// Dark blue background
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
-
-	// Create and compile our GLSL program from the shaders
 	shaders.init();
 
-	const GLfloat g_vertex_buffer_data[] = { 
-		-1.0f, -1.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-	};
+	glGenVertexArrays(1, &vertexArrayID);
+	glBindVertexArray(vertexArrayID);
 
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), 
-		g_vertex_buffer_data, GL_STATIC_DRAW);
-	
+	float NEAR_CLIPPING_PLANE = 0.1f;
+	float FAR_CLIPPING_PLANE = 100.0f;
+	auto projection = perspective(45.0f, 4.0f / 3.0f, NEAR_CLIPPING_PLANE,
+		FAR_CLIPPING_PLANE);
+
+	shaders.setProjection(projection);
+
+	vector<vec3> planeVertices;
+	fillPlane(planeVertices);
+	planeVertexBufferSize = planeVertices.size();
+
+	vector<vec3> rabbitVertices;
+	vector<vec3> rabbitNormals;
+	loadOBJ("res/my_rabbit_n.obj", rabbitVertices, rabbitNormals);
+	rabbitVertexBufferSize = rabbitVertices.size();
+
+	glGenBuffers(1, &planeVertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, planeVertexBuffer);
+	glBufferData( GL_ARRAY_BUFFER, sizeof(vec3) * planeVertices.size(),
+		&planeVertices[0],
+		GL_STATIC_DRAW);
+
+	glGenBuffers(1, &rabbitVertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, rabbitVertexBuffer);
+	glBufferData( GL_ARRAY_BUFFER, sizeof(vec3) * rabbitVertices.size(),
+		&rabbitVertices[0],
+		GL_STATIC_DRAW);
+
 }
 
 void Scene::update() {
 	
-	// Clear the screen
-	glClear( GL_COLOR_BUFFER_BIT );
+	
 
-	// Use our shader
-	glUseProgram(shaders.programId);
+	glClearColor(settings.bgColor[0], settings.bgColor[1], settings.bgColor[2],
+		0.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	
+	camera.update();
+	shaders.setView(camera.getView());
 
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glVertexAttribPointer(
-			0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
+	// plane
+	shaders.setColor(settings.getPlaneColor());
+	shaders.setModel(rotate(mat4(10.0f), 90.f, vec3(1, 0, 0)));
 
-		// Draw the triangle !
-		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
+	glEnableVertexAttribArray(shaders.vertexPosition_modelspaceId);
+	glBindBuffer(GL_ARRAY_BUFFER, planeVertexBuffer);
+	glVertexAttribPointer(shaders.vertexPosition_modelspaceId, 3,
+	GL_FLOAT,
+	GL_FALSE, 0, (void*) 0);
 
-		glDisableVertexAttribArray(0);
+	glDrawArrays(GL_TRIANGLES, 0, planeVertexBufferSize * 3);
+	glDisableVertexAttribArray(shaders.vertexPosition_modelspaceId);
+
+	// rabbit
+	shaders.setColor(settings.getRabbitColor());
+	shaders.setModel(mat4(1.0f));
+
+	glEnableVertexAttribArray(shaders.vertexPosition_modelspaceId);
+	glBindBuffer(GL_ARRAY_BUFFER, rabbitVertexBuffer);
+	glVertexAttribPointer(shaders.vertexPosition_modelspaceId, 3, GL_FLOAT,
+	GL_FALSE, 0, NULL);
+
+	glDrawArrays(GL_TRIANGLES, 0, rabbitVertexBufferSize * 3);
+	glDisableVertexAttribArray(shaders.vertexPosition_modelspaceId);
 
 }
 
-void Scene::terminate(){
-	glDeleteBuffers(1, &vertexbuffer);
-	// glDeleteVertexArrays(1, &VertexArrayID);
-	// glDeleteProgram(programID);
+void Scene::terminate() {
+	glDeleteBuffers(1, &planeVertexBuffer);
+	glDeleteBuffers(1, &rabbitVertexBuffer);
+	glDeleteVertexArrays(1, &vertexArrayID);
 }
+

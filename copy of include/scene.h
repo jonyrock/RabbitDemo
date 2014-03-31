@@ -1,30 +1,25 @@
 #pragma once
 #include "settings.h"
 #include "shaders.h"
+#include "worldState.h"
 #include "camera.h"
 #include <glm/glm.hpp>
 
 class Scene {
 	const Settings& settings;
 	Shaders shaders;
+	WorldState worldState;
+	
+	GLuint vertexbuffer;
 	Camera camera;
-	
-	GLuint vertexArrayID;
-	
-	GLuint rabbitVertexBuffer;
-	GLuint rabbitVertexBufferSize;
-	
-	GLuint planeVertexBuffer;
-	GLuint planeVertexBufferSize;
-	
-	glm::mat4 projection;
-	glm::mat4 view;
+	glm::mat4 Projection;
+	glm::mat4 View;
 	
 public:
 	Scene(const Settings& settings): 
 		settings(settings),
-		shaders(settings),
-		camera(settings, glm::vec3(0, 10, 10)) {
+		shaders(settings, worldState),
+		camera(0, 10, 10) {
 	}
 	void init();
 	void update();

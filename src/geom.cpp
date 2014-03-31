@@ -1,4 +1,3 @@
-
 #include "geom.h"
 #include <vector>
 
@@ -13,7 +12,6 @@
 
 using namespace std;
 using namespace glm;
-
 
 void fillPlane(vector<vec3>& vertices) {
 
@@ -38,7 +36,6 @@ void fillCube(vector<vec3>& vertices) {
 		vec3(1, -1, 1),
 		vec3(1, 1, 1),
 
-
 		vec3(-1, -1, -1),
 		vec3(1, 1, -1),
 		vec3(-1, 1, -1),
@@ -46,7 +43,6 @@ void fillCube(vector<vec3>& vertices) {
 		vec3(-1, -1, -1),
 		vec3(1, -1, -1),
 		vec3(1, 1, -1),
-
 
 		vec3(-1, 1, 1),
 		vec3(1, 1, -1),
@@ -63,7 +59,6 @@ void fillCube(vector<vec3>& vertices) {
 		vec3(-1, -1, 1),
 		vec3(1, -1, 1),
 		vec3(1, -1, -1),
-
 
 		vec3(1, -1, 1),
 		vec3(1, 1, -1),
@@ -82,13 +77,12 @@ void fillCube(vector<vec3>& vertices) {
 		vec3(-1, 1, -1)
 	};
 
-
 }
 
 void fillSphere(vector<vec3>& vertices) {
-	
+
 	float step = 1;
-	
+
 	for (float beta = 0; beta < 360; beta += step) {
 		for (float alpha = -90; alpha < 90; alpha += step) {
 
@@ -103,7 +97,7 @@ void fillSphere(vector<vec3>& vertices) {
 			vec3 b = rotateY(rotateZ(vec3(1, 0, 0), alpha + step), beta);
 			vec3 c = rotateY(rotateZ(vec3(1, 0, 0), alpha + step), beta + step);
 			vec3 d = rotateY(rotateZ(vec3(1, 0, 0), alpha), beta + step);
-			
+
 			vertices.push_back(a);
 			vertices.push_back(c);
 			vertices.push_back(b);

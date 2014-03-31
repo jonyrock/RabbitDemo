@@ -1,31 +1,33 @@
 #pragma once
 #include "settings.h"
-#include "worldState.h"
 
+#include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <GL/gl.h>
 
 class Shaders {
 	const Settings& settings;
-	const WorldState& worldState;
-	
-	
+
 public:
-		
-	Shaders(
-		const Settings& settings, 
-		const WorldState& worldState
-	): settings(settings),
-	   worldState(worldState) {
+	Shaders(const Settings& settings)
+		: settings(settings) {
 	}
 	void init();
-	
+	~Shaders();
+
 	GLuint programId;
-	
-	GLuint mvpId;
-	GLuint colorId;
 	GLuint vertexPosition_modelspaceId;
+
+	void setColor(glm::vec3 color);
+	void setModel(glm::mat4 mat);
+	void setView(glm::mat4 mat);
+	void setProjection(glm::mat4 mat);
+
 private:
+
+	GLuint modelId, viewId, projectionId;
+	GLuint colorId;
+
 	GLuint LoadShaders(const char* verPath, const char* fragPath);
-	
+
 };
