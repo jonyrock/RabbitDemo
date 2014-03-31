@@ -6,3 +6,4 @@ Release/*
 #.project
 #.cproject
 .tags
+/Debug
