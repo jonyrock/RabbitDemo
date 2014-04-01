@@ -6,12 +6,11 @@
 #include <GLFW/glfw3.h>
 
 class UserInterface {
-	GLFWwindow* window;
 	Settings& settings;
 public:
-	UserInterface(GLFWwindow* window, Settings& settings): 
-		window(window),
+	UserInterface(Settings& settings): 
 		settings(settings){
+		bar = NULL;
 	}
 	void init();
 	void update();

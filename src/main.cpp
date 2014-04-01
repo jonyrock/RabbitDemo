@@ -15,7 +15,7 @@ using namespace std;
 GLFWwindow* window;
 
 int main() {
-		
+
 	if(!glfwInit()) {
 		cerr << "Failed to initialize GLFW" << endl;
 		return -1;
@@ -38,9 +38,9 @@ int main() {
 		return -1;
 	}
 	
-	Settings settings;
+	Settings settings(window);
 	Scene scene(settings);
-	UserInterface ui(window, settings);	
+	UserInterface ui(settings);	
 	scene.init();
 	ui.init();
 

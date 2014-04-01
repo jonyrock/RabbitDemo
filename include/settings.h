@@ -22,10 +22,16 @@ struct Settings {
 	float bgColor[3];
 	float planeColor[3];
 	float rabbitColor[3];
+	
+	double cursorXPos;
+	double cursorYPos;
+	
+	bool mouseLeftButtonIsPressed;
 
 	GLFWwindow* window;
 
-	Settings() {
+	Settings(GLFWwindow* window)
+			: window(window) {
 
 		ambient = 0.5;
 		diffuse = 0.5;
@@ -45,9 +51,12 @@ struct Settings {
 		rabbitColor[0] = 0.9f;
 		rabbitColor[1] = 0.3f;
 		rabbitColor[2] = 0.3f;
-
-		window = NULL;
-
+		
+		cursorXPos = 0;
+		cursorYPos = 0;
+		
+		mouseLeftButtonIsPressed = false;
+		
 	}
 
 	inline glm::vec3 getBgColor() const {

@@ -5,50 +5,91 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <iostream>
+#include "tools.h"
 
 using namespace std;
 using namespace glm;
 
-void Camera::init() {
-//	glfwSetMouseButtonCallback(wondow, );
+static Camera* me;
+
+static bool wIsPressed = false;
+static bool sIsPressed = false;
+
+static float heading = 0;
+static float pitch = 0;
+
+static void rotateX(int deg) {
+	if (deg == 0)
+		return;
+	pitch += deg / 5.0f;
 }
+
+static void rotateY(int deg) {
+	if (deg == 0)
+		return;
+	heading += deg / 5.0f;
+}
+
+void onKey(GLFWwindow* window, int key, int, int action, int) {
+	if (action == GLFW_PRESS) {
+		if (key == GLFW_KEY_W) {
+			wIsPressed = true;
+		}
+		if (key == GLFW_KEY_S) {
+			sIsPressed = true;
+		}
+	}
+	if (action == GLFW_RELEASE) {
+		if (key == GLFW_KEY_W) {
+			wIsPressed = false;
+		}
+		if (key == GLFW_KEY_S) {
+			sIsPressed = false;
+		}
+	}
+
+}
+
+void onScroll(GLFWwindow * window, double xoffset, double yoffset) {
+	me->zoom(-yoffset);
+}
+
+void Camera::init() {
+	me = this;
+	glfwSetKeyCallback(settings.window, onKey);
+	glfwSetScrollCallback(settings.window, onScroll);
+}
+
+static int cursorPosXBefore = 0;
+static int cursorPosYBefore = 0;
 
 void Camera::update() {
 
-//	if (glfwGetKey(settings.window, 'W') == GLFW_PRESS) {
-//		zoom(-0.3);
-//	}
-//
-//	cout << glfwGetKey(settings.window, 'W') << endl;
-//
-//	if (glfwGetKey(settings.window, 'S') == GLFW_PRESS) {
-//		zoom(0.3);
-//	}
-//
-//	int myX = 0;
-//	int myY = 0;
-////	glfwGetMousePos(window,&myX, &myY);
-//	int xDiff = myX - _xBefore;
-//	int yDiff = myY - _yBefore;
-//	_xBefore = myX;
-//	_yBefore = myY;
+	if (glfwGetKey(settings.window, 'W') == GLFW_PRESS) {
+		zoom(-0.3);
+	}
 
-//	if (glfwGetMouseButton(window,GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-//		rotateX(-xDiff);
-//		rotateY(-yDiff);
-//	}
+	if (glfwGetKey(settings.window, 'S') == GLFW_PRESS) {
+		zoom(0.3);
+	}
 
-//	int myWheel = glfwGetMouseWheel();
-//	int wheelDiff = myWheel - _wheelBefore;
-//	zoom(-wheelDiff);
-//	_wheelBefore = myWheel;
+	int xDiff = settings.cursorXPos - cursorPosXBefore;
+	int yDiff = settings.cursorYPos - cursorPosYBefore;
+
+	cursorPosXBefore = settings.cursorXPos;
+	cursorPosYBefore = settings.cursorYPos;
+
+	if (settings.mouseLeftButtonIsPressed) {
+		rotateX(-xDiff);
+		rotateY(-yDiff);
+	}
 
 }
 
 void Camera::zoom(float scale = 1) {
 	if (scale == 0)
 		return;
-	vec3 uv = glm::normalize(_cameraPosition);
+	vec3 uv = normalize(_cameraPosition);
 	float magnitude = dot(_cameraPosition, _cameraPosition);
 	if (magnitude + scale < 0)
 		return;
@@ -58,7 +99,7 @@ void Camera::zoom(float scale = 1) {
 
 mat4 Camera::getView() {
 	mat4 view = lookAt(_cameraPosition, vec3(0, 0, 0), vec3(0, 1, 0));
-	view = view * rotate(mat4(1.0f), -_heading, vec3(1, 0, 0));
-	view = view * rotate(mat4(1.0f), -_pitch, vec3(0, 1, 0));
+	view = view * rotate(mat4(1.0f), -heading, vec3(1, 0, 0));
+	view = view * rotate(mat4(1.0f), -pitch, vec3(0, 1, 0));
 	return view;
 }

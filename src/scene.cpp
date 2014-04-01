@@ -19,6 +19,7 @@ using namespace glm;
 void Scene::init() {
 
 	shaders.init();
+	camera.init();
 
 	glGenVertexArrays(1, &vertexArrayID);
 	glBindVertexArray(vertexArrayID);
@@ -55,11 +56,13 @@ void Scene::init() {
 
 void Scene::update() {
 	
+//	glEnable(GL_DEPTH_TEST);
+//	glDepthFunc(GL_LESS);
+
 	glClearColor(settings.bgColor[0], settings.bgColor[1], settings.bgColor[2],
 		0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
-	
+
 	camera.update();
 	shaders.setView(camera.getView());
 

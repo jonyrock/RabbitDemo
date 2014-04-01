@@ -31,8 +31,10 @@
 								<option id="gnu.cpp.compiler.option.dialect.std.1928990290" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1418703077" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../libs/glfw-3.0.3/include/&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../libs/AntTweakBar/include/&quot;"/>
+									<listOptionValue builtIn="false" value="/home/alex/workspace/RabbitDemo/libs/AntTweakBar/include"/>
+									<listOptionValue builtIn="false" value="/home/alex/workspace/RabbitDemo/libs/glfw-3.0.3/include"/>
+									<listOptionValue builtIn="false" value="/home/alex/workspace/RabbitDemo/libs/glfw-3.0.3/src"/>
+									<listOptionValue builtIn="false" value="/home/alex/workspace/RabbitDemo/libs/AntTweakBar/src"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1318962764" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -42,7 +44,7 @@
 									<listOptionValue builtIn="false" value="../build/libs/AntTweakBar/"/>
 									<listOptionValue builtIn="false" value="../build/libs/glfw-3.0.3/src/"/>
 								</option>
-								<option id="gnu.cpp.link.option.libs.309462029" superClass="gnu.cpp.link.option.libs" valueType="libs">
+								<option id="gnu.cpp.link.option.libs.309462029" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="AntTweakBar"/>
 									<listOptionValue builtIn="false" value="glfw3"/>
 									<listOptionValue builtIn="false" value="GL"/>
