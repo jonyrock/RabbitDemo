@@ -10,14 +10,17 @@ class Shaders {
 
 public:
 	Shaders(const Settings& settings)
-		: settings(settings) {
+			: settings(settings) {
 	}
 	void init();
 	~Shaders();
 
 	GLuint programId;
 	GLuint vertexPosition_modelspaceId;
-
+	GLuint vertexNormal_modelspaceId;
+	
+	void update();
+	
 	void setColor(glm::vec3 color);
 	void setModel(glm::mat4 mat);
 	void setView(glm::mat4 mat);
@@ -26,8 +29,11 @@ public:
 private:
 
 	GLuint modelId, viewId, projectionId;
-	GLuint colorId;
+	GLuint colorId, lightColorId;
 
-	GLuint LoadShaders(const char* verPath, const char* fragPath);
+	GLuint lightTypeId, fillTypeId, ambientId, diffuseId, specularId, specularPowerId, kcId,
+			klId, kqId;
+
+	GLuint loadShaders(const char* verPath, const char* fragPath);
 
 };

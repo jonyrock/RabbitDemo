@@ -32,43 +32,64 @@ void Scene::init() {
 	shaders.setProjection(projection);
 
 	vector<vec3> planeVertices;
+	vector<vec3> planeNormals;
 	fillPlane(planeVertices);
-	planeVertexBufferSize = planeVertices.size();
+	for (size_t i = 0; i < planeVertices.size(); i++) {
+		planeNormals.push_back(vec3(0, 0, -1));
+	}
+
+	planeSize = planeVertices.size();
 
 	vector<vec3> rabbitVertices;
 	vector<vec3> rabbitNormals;
-	loadOBJ("res/my_rabbit_n.obj", rabbitVertices, rabbitNormals);
-	rabbitVertexBufferSize = rabbitVertices.size();
+	loadOBJ("res/rabbit_n.obj", rabbitVertices, rabbitNormals);
+	rabbitSize = rabbitVertices.size();
 
+	/// plane buffers
 	glGenBuffers(1, &planeVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, planeVertexBuffer);
-	glBufferData( GL_ARRAY_BUFFER, sizeof(vec3) * planeVertices.size(),
+	glBufferData( GL_ARRAY_BUFFER, sizeof(vec3) * planeSize,
 		&planeVertices[0],
 		GL_STATIC_DRAW);
 
+	glGenBuffers(1, &planeNormalBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, planeNormalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * planeSize,
+		&planeNormals[0], GL_STATIC_DRAW);
+
+	// rabbit buffers
 	glGenBuffers(1, &rabbitVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, rabbitVertexBuffer);
-	glBufferData( GL_ARRAY_BUFFER, sizeof(vec3) * rabbitVertices.size(),
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * rabbitVertices.size(),
 		&rabbitVertices[0],
+		GL_STATIC_DRAW);
+
+	glGenBuffers(1, &rabbitNormalBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, rabbitNormalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * rabbitNormals.size(),
+		&rabbitNormals[0],
 		GL_STATIC_DRAW);
 
 }
 
 void Scene::update() {
-	
-//	glEnable(GL_DEPTH_TEST);
-//	glDepthFunc(GL_LESS);
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 
 	glClearColor(settings.bgColor[0], settings.bgColor[1], settings.bgColor[2],
 		0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	camera.update();
+	shaders.update();
+	
 	shaders.setView(camera.getView());
 
 	// plane
 	shaders.setColor(settings.getPlaneColor());
-	shaders.setModel(rotate(mat4(10.0f), 90.f, vec3(1, 0, 0)));
+	shaders.setModel(translate(rotate(mat4(10.0f), 90.f, vec3(1, 0, 0)), vec3(0.0f,0.0f,0.3f)));
+//	shaders.setModel(mat4(1.0f));
 
 	glEnableVertexAttribArray(shaders.vertexPosition_modelspaceId);
 	glBindBuffer(GL_ARRAY_BUFFER, planeVertexBuffer);
@@ -76,19 +97,30 @@ void Scene::update() {
 	GL_FLOAT,
 	GL_FALSE, 0, (void*) 0);
 
-	glDrawArrays(GL_TRIANGLES, 0, planeVertexBufferSize * 3);
+	glEnableVertexAttribArray(shaders.vertexNormal_modelspaceId);
+	glBindBuffer(GL_ARRAY_BUFFER, planeNormalBuffer);
+	glVertexAttribPointer(shaders.vertexNormal_modelspaceId, 3,
+	GL_FLOAT,
+	GL_FALSE, 0, (void*) 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, planeSize * 3);
 	glDisableVertexAttribArray(shaders.vertexPosition_modelspaceId);
 
 	// rabbit
 	shaders.setColor(settings.getRabbitColor());
-	shaders.setModel(mat4(1.0f));
+	shaders.setModel(glm::translate(glm::mat4(1.0f), vec3(0.2,-0.3f,0)));
 
 	glEnableVertexAttribArray(shaders.vertexPosition_modelspaceId);
 	glBindBuffer(GL_ARRAY_BUFFER, rabbitVertexBuffer);
 	glVertexAttribPointer(shaders.vertexPosition_modelspaceId, 3, GL_FLOAT,
 	GL_FALSE, 0, NULL);
 
-	glDrawArrays(GL_TRIANGLES, 0, rabbitVertexBufferSize * 3);
+	glEnableVertexAttribArray(shaders.vertexNormal_modelspaceId);
+	glBindBuffer(GL_ARRAY_BUFFER, rabbitNormalBuffer);
+	glVertexAttribPointer(shaders.vertexNormal_modelspaceId, 3, GL_FLOAT,
+	GL_FALSE, 0, NULL);
+
+	glDrawArrays(GL_TRIANGLES, 0, rabbitSize * 3);
 	glDisableVertexAttribArray(shaders.vertexPosition_modelspaceId);
 
 }

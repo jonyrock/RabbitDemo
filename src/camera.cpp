@@ -66,11 +66,11 @@ static int cursorPosYBefore = 0;
 void Camera::update() {
 
 	if (glfwGetKey(settings.window, 'W') == GLFW_PRESS) {
-		zoom(-0.3);
+		zoom(-0.01);
 	}
 
 	if (glfwGetKey(settings.window, 'S') == GLFW_PRESS) {
-		zoom(0.3);
+		zoom(0.01);
 	}
 
 	int xDiff = settings.cursorXPos - cursorPosXBefore;

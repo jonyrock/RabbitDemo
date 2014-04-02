@@ -4,14 +4,17 @@
 #include <GLFW/glfw3.h>
 
 enum LightType {
-	LT_PHONG, LT_BLINN_PHONG
+	LT_PHONG = 1, LT_BLINN_PHONG = 2
 };
 
 enum FillType {
-	FT_FLAT, FT_PER_VERTEX, FT_PER_FRAGMENT
+	FT_FLAT = 1, FT_PER_VERTEX = 2, FT_PER_FRAGMENT = 3
 };
 
 struct Settings {
+	
+	GLFWwindow* window;
+	
 	float ambient;
 	float diffuse;
 	float specular;
@@ -22,21 +25,28 @@ struct Settings {
 	float bgColor[3];
 	float planeColor[3];
 	float rabbitColor[3];
-	
+	float lightColor[3];
+
 	double cursorXPos;
 	double cursorYPos;
-	
+
 	bool mouseLeftButtonIsPressed;
 
-	GLFWwindow* window;
+	float kc;
+	float kl;
+	float kq;
 
 	Settings(GLFWwindow* window)
 			: window(window) {
 
-		ambient = 0.5;
-		diffuse = 0.5;
-		specular = 1.0;
-		specularPower = 1.5;
+		ambient = 0.3f;
+		diffuse = 0.5f;
+		specular = 0.6f;
+		specularPower = 19.0f;
+		kc = 1.0f;
+		kl = 0.000001f;
+		kq = 0.0000000001f;
+		
 		lightType = LT_PHONG;
 		fillType = FT_FLAT;
 
@@ -52,11 +62,15 @@ struct Settings {
 		rabbitColor[1] = 0.3f;
 		rabbitColor[2] = 0.3f;
 		
+		lightColor[0] = 1.0f;
+		lightColor[1] = 0.98f;
+		lightColor[2] = 0.9f;
+
 		cursorXPos = 0;
 		cursorYPos = 0;
-		
+
 		mouseLeftButtonIsPressed = false;
-		
+
 	}
 
 	inline glm::vec3 getBgColor() const {

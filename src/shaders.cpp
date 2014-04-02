@@ -17,7 +17,7 @@ using namespace std;
 using namespace glm;
 
 void Shaders::init() {
-	programId = LoadShaders("res/simple.vert", "res/simple.frag");
+	programId = loadShaders("res/simple.vert", "res/simple.frag");
 	if (programId == 0)
 		exit(1);
 
@@ -25,9 +25,25 @@ void Shaders::init() {
 	viewId = glGetUniformLocation(programId, "view");
 	projectionId = glGetUniformLocation(programId, "projection");
 	colorId = glGetUniformLocation(programId, "color");
+	lightColorId = glGetUniformLocation(programId, "lightColor");
 	vertexPosition_modelspaceId = glGetAttribLocation(programId,
-			"vertexPosition_modelspace");
-	
+		"vertexPosition_modelspace");
+
+	vertexNormal_modelspaceId = glGetAttribLocation(programId,
+		"vertexNormal_modelspace");
+
+	lightTypeId = glGetUniformLocation(programId, "lightType");
+	fillTypeId = glGetUniformLocation(programId, "fillType");
+
+	ambientId = glGetUniformLocation(programId, "ambient");
+	diffuseId = glGetUniformLocation(programId, "diffuse");
+	specularId = glGetUniformLocation(programId, "specular");
+	specularPowerId = glGetUniformLocation(programId, "specularPower");
+
+	kcId = glGetUniformLocation(programId, "kc");
+	klId = glGetUniformLocation(programId, "kl");
+	kqId = glGetUniformLocation(programId, "kq");
+
 	glUseProgram(programId);
 }
 
@@ -44,8 +60,28 @@ void Shaders::setProjection(mat4 mat) {
 	glUniformMatrix4fv(projectionId, 1, GL_FALSE, &mat[0][0]);
 }
 
-GLuint Shaders::LoadShaders(const char * vertex_file_path,
-		const char * fragment_file_path) {
+void Shaders::update() {
+
+//	cout << settings.specularPower << endl;
+
+	glUniform3f(lightColorId, settings.lightColor[0], settings.lightColor[1],
+		settings.lightColor[2]);
+
+	glUniform1i(lightTypeId, settings.lightType);
+
+	glUniform1f(ambientId, settings.ambient);
+	glUniform1f(diffuseId, settings.diffuse);
+	glUniform1f(specularId, settings.specular);
+	glUniform1f(specularPowerId, settings.specularPower);
+
+	glUniform1f(kcId, settings.kc);
+	glUniform1f(klId, settings.kl);
+	glUniform1f(kqId, settings.kq);
+
+}
+
+GLuint Shaders::loadShaders(const char * vertex_file_path,
+	const char * fragment_file_path) {
 
 	// Create the shaders
 	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -89,7 +125,7 @@ GLuint Shaders::LoadShaders(const char * vertex_file_path,
 	if (InfoLogLength > 0) {
 		vector<char> VertexShaderErrorMessage(InfoLogLength + 1);
 		glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL,
-				&VertexShaderErrorMessage[0]);
+			&VertexShaderErrorMessage[0]);
 		printf("%s\n", &VertexShaderErrorMessage[0]);
 	}
 
@@ -105,7 +141,7 @@ GLuint Shaders::LoadShaders(const char * vertex_file_path,
 	if (InfoLogLength > 0) {
 		vector<char> FragmentShaderErrorMessage(InfoLogLength + 1);
 		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL,
-				&FragmentShaderErrorMessage[0]);
+			&FragmentShaderErrorMessage[0]);
 		printf("%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
@@ -122,7 +158,7 @@ GLuint Shaders::LoadShaders(const char * vertex_file_path,
 	if (InfoLogLength > 0) {
 		vector<char> ProgramErrorMessage(InfoLogLength + 1);
 		glGetProgramInfoLog(ProgramID, InfoLogLength, NULL,
-				&ProgramErrorMessage[0]);
+			&ProgramErrorMessage[0]);
 		printf("%s\n", &ProgramErrorMessage[0]);
 	}
 

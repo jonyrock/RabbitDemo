@@ -8,23 +8,24 @@ class Scene {
 	const Settings& settings;
 	Shaders shaders;
 	Camera camera;
-	
+
 	GLuint vertexArrayID;
 	
-	GLuint rabbitVertexBuffer;
-	GLuint rabbitVertexBufferSize;
-	
 	GLuint planeVertexBuffer;
-	GLuint planeVertexBufferSize;
-	
+	GLuint planeNormalBuffer;
+	GLuint planeSize;
+
+	GLuint rabbitVertexBuffer;
+	GLuint rabbitNormalBuffer;
+	GLuint rabbitSize;
+
 	glm::mat4 projection;
 	glm::mat4 view;
-	
+
 public:
-	Scene(const Settings& settings): 
-		settings(settings),
-		shaders(settings),
-		camera(settings, glm::vec3(0, 10, 10)) {
+	Scene(const Settings& settings)
+			: settings(settings), shaders(settings), camera(settings,
+				glm::vec3(0, 3, 3)) {
 	}
 	void init();
 	void update();

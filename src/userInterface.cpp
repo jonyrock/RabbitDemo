@@ -4,7 +4,7 @@
 #include "GLFW/glfw3.h"
 #include "AntTweakBar.h"
 
-static Settings* staic_settings;
+static Settings* staticSettings;
 
 void UserInterface::addLightTypes() {
 	TwEnumVal types[] = { { LT_PHONG, "phong" },
@@ -24,7 +24,7 @@ void UserInterface::init() {
 
 	TwInit(TW_OPENGL, NULL);
 
-	staic_settings = &settings;
+	staticSettings = &settings;
 
 	int glfwWindowWidth = 0, glfwWindowHeight = 0;
 	glfwGetWindowSize(settings.window, &glfwWindowWidth, &glfwWindowHeight);
@@ -36,19 +36,21 @@ void UserInterface::init() {
 	addFillTypes();
 
 	TwAddVarRW(bar, "ambient", TW_TYPE_FLOAT, &settings.ambient,
-		"label='Ambient' ");
+		"label='Ambient' min=0.0f max=1.0f step=0.0035");
 	TwAddVarRW(bar, "diffuse", TW_TYPE_FLOAT, &settings.diffuse,
-		"label='Diffuse' ");
+		"label='Diffuse' min=0.0f step=0.0035");
 	TwAddVarRW(bar, "specular", TW_TYPE_FLOAT, &settings.specular,
-		"label='Specular' ");
+		"label='Specular' step=0.0035 ");
 	TwAddVarRW(bar, "specularPower", TW_TYPE_FLOAT, &settings.specularPower,
-		"label='Specular power' ");
+		"label='Specular power' step=0.0035 ");
 	TwAddVarRW(bar, "bgColor", TW_TYPE_COLOR3F, &settings.bgColor,
 		"label='Background color' ");
 	TwAddVarRW(bar, "planeColor", TW_TYPE_COLOR3F, &settings.planeColor,
 		"label='Plane color' ");
 	TwAddVarRW(bar, "rabbitColor", TW_TYPE_COLOR3F, &settings.rabbitColor,
 		"label='Rabbit color' ");
+	TwAddVarRW(bar, "lightColor", TW_TYPE_COLOR3F, &settings.lightColor,
+			"label='Light color' ");
 }
 
 void UserInterface::update() {
@@ -65,14 +67,14 @@ static void onGlfwSetMouseButton(GLFWwindow * window, int button, int action,
 	int mods) {
 	TwEventMouseButtonGLFW(button, action);
 	if (button == GLFW_MOUSE_BUTTON_LEFT) {
-		staic_settings->mouseLeftButtonIsPressed = action == GLFW_PRESS;
+		staticSettings->mouseLeftButtonIsPressed = action == GLFW_PRESS;
 	}
 }
 
 static void onGlfwSetCursorPos(GLFWwindow * window, double xpos, double ypos) {
 	TwEventMousePosGLFW(xpos, ypos);
-	staic_settings->cursorXPos = xpos;
-	staic_settings->cursorYPos = ypos;
+	staticSettings->cursorXPos = xpos;
+	staticSettings->cursorYPos = ypos;
 }
 
 void UserInterface::bindGLWF2Ant() {
