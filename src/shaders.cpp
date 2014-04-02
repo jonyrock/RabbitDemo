@@ -13,6 +13,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <sstream>
+
+#include <stdexcept>
+#include <set>
+
 using namespace std;
 using namespace glm;
 
@@ -26,6 +31,7 @@ void Shaders::init() {
 	projectionId = glGetUniformLocation(programId, "projection");
 	colorId = glGetUniformLocation(programId, "color");
 	lightColorId = glGetUniformLocation(programId, "lightColor");
+	lightPositionId = glGetUniformLocation(programId, "lightPosition");
 	vertexPosition_modelspaceId = glGetAttribLocation(programId,
 		"vertexPosition_modelspace");
 
@@ -62,12 +68,13 @@ void Shaders::setProjection(mat4 mat) {
 
 void Shaders::update() {
 
-//	cout << settings.specularPower << endl;
-
 	glUniform3f(lightColorId, settings.lightColor[0], settings.lightColor[1],
 		settings.lightColor[2]);
+	glUniform3f(lightPositionId, settings.lightPosition[0],
+		settings.lightPosition[1], settings.lightPosition[2]);
 
 	glUniform1i(lightTypeId, settings.lightType);
+	glUniform1i(fillTypeId, settings.fillType);
 
 	glUniform1f(ambientId, settings.ambient);
 	glUniform1f(diffuseId, settings.diffuse);
@@ -80,6 +87,45 @@ void Shaders::update() {
 
 }
 
+void loadCode(const string& path, stringstream& stream, set<string>& included) {
+
+	if (included.find(path) != included.end())
+		return;
+
+	included.insert(path);
+
+	ifstream str;
+	str.open(path);
+	string line;
+
+	if (!str.is_open()) {
+		throw logic_error("Can't open file " + path);
+	}
+
+	while (getline(str, line)) {
+		stringstream ss(line);
+		string a;
+		ss >> a;
+		if (a == "#include") {
+			string innerPath;
+			ss >> innerPath;
+			loadCode(innerPath.substr(1, innerPath.length() - 2), stream,
+				included);
+			stream << endl;
+		} else {
+			stream << line << endl;
+		}
+	}
+
+}
+
+string loadCode(const string& path) {
+	stringstream ss;
+	set<string> included;
+	loadCode(path, ss, included);
+	return ss.str();
+}
+
 GLuint Shaders::loadShaders(const char * vertex_file_path,
 	const char * fragment_file_path) {
 
@@ -88,27 +134,11 @@ GLuint Shaders::loadShaders(const char * vertex_file_path,
 	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
 	// Read the Vertex Shader code from the file
-	string VertexShaderCode;
-	ifstream VertexShaderStream(vertex_file_path, std::ios::in);
-	if (VertexShaderStream.is_open()) {
-		string Line = "";
-		while (getline(VertexShaderStream, Line))
-			VertexShaderCode += "\n" + Line;
-		VertexShaderStream.close();
-	} else {
-		printf("Impossible to open %s. \n", vertex_file_path);
-		return 0;
-	}
+
+	string VertexShaderCode = loadCode(vertex_file_path);
 
 	// Read the Fragment Shader code from the file
-	string FragmentShaderCode;
-	ifstream FragmentShaderStream(fragment_file_path, std::ios::in);
-	if (FragmentShaderStream.is_open()) {
-		string Line = "";
-		while (getline(FragmentShaderStream, Line))
-			FragmentShaderCode += "\n" + Line;
-		FragmentShaderStream.close();
-	}
+	string FragmentShaderCode = loadCode(fragment_file_path) + "\n";
 
 	GLint Result = GL_FALSE;
 	int InfoLogLength;

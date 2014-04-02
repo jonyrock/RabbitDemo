@@ -12,9 +12,9 @@ enum FillType {
 };
 
 struct Settings {
-	
+
 	GLFWwindow* window;
-	
+
 	float ambient;
 	float diffuse;
 	float specular;
@@ -26,6 +26,8 @@ struct Settings {
 	float planeColor[3];
 	float rabbitColor[3];
 	float lightColor[3];
+
+	float lightPosition[3];
 
 	double cursorXPos;
 	double cursorYPos;
@@ -46,7 +48,7 @@ struct Settings {
 		kc = 1.0f;
 		kl = 0.000001f;
 		kq = 0.0000000001f;
-		
+
 		lightType = LT_PHONG;
 		fillType = FT_FLAT;
 
@@ -61,10 +63,14 @@ struct Settings {
 		rabbitColor[0] = 0.9f;
 		rabbitColor[1] = 0.3f;
 		rabbitColor[2] = 0.3f;
-		
+
 		lightColor[0] = 1.0f;
 		lightColor[1] = 0.98f;
 		lightColor[2] = 0.9f;
+
+		lightPosition[0] = 30.0f;
+		lightPosition[1] = 30.0f;
+		lightPosition[2] = 20.0f;
 
 		cursorXPos = 0;
 		cursorYPos = 0;

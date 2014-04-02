@@ -29,7 +29,7 @@ public:
 private:
 
 	GLuint modelId, viewId, projectionId;
-	GLuint colorId, lightColorId;
+	GLuint colorId, lightColorId, lightPositionId;
 
 	GLuint lightTypeId, fillTypeId, ambientId, diffuseId, specularId, specularPowerId, kcId,
 			klId, kqId;
