@@ -17,7 +17,7 @@ uniform int lightType;
 vec3 computeLight(vec3 color, vec3 position, vec3 normal) {	
 	vec3 res;
 	vec3 N = normalize(vertexNormal);
-    vec3 L = normalize(lightPosition - position);
+    vec3 L = normalize(mv(lightPosition) - position);
     float idiff = diffuse * max(dot(N, L), 0.0f);
     vec3 V = normalize(viewerPosition - position); 
     vec3 R = (2 * dot(N, L) * N - L);
@@ -33,7 +33,7 @@ vec3 computeLight(vec3 color, vec3 position, vec3 normal) {
 	    		);
     } else {
     	vec3 H = normalize(L + V);
-        ispec = max(specular * pow(dot(H, N), specularPower), 0);
+        ispec = specular * pow(dot(H, N), specularPower);
     }
     if(dot(L, N) < 0) {
 		ispec = 0;

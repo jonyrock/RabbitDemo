@@ -13,10 +13,14 @@ class Scene {
 	
 	GLuint planeVertexBuffer;
 	GLuint planeNormalBuffer;
+	GLuint planeFlatPositionBuffer;
+	GLuint planeFlatNormalBuffer;
 	GLuint planeSize;
 
 	GLuint rabbitVertexBuffer;
 	GLuint rabbitNormalBuffer;
+	GLuint rabbitFlatPositionBuffer;
+	GLuint rabbitFlatNormalBuffer;
 	GLuint rabbitSize;
 
 	glm::mat4 projection;
@@ -25,7 +29,7 @@ class Scene {
 public:
 	Scene(const Settings& settings)
 			: settings(settings), shaders(settings), camera(settings,
-				glm::vec3(0, 3, 3)) {
+				glm::vec3(0, 1, 1)) {
 	}
 	void init();
 	void update();

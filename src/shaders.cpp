@@ -32,11 +32,14 @@ void Shaders::init() {
 	colorId = glGetUniformLocation(programId, "color");
 	lightColorId = glGetUniformLocation(programId, "lightColor");
 	lightPositionId = glGetUniformLocation(programId, "lightPosition");
+
 	vertexPosition_modelspaceId = glGetAttribLocation(programId,
 		"vertexPosition_modelspace");
-
 	vertexNormal_modelspaceId = glGetAttribLocation(programId,
 		"vertexNormal_modelspace");
+	
+	flatPositionId = glGetAttribLocation(programId, "flatPosition");
+	flatNormalId = glGetAttribLocation(programId, "flatNormal");
 
 	lightTypeId = glGetUniformLocation(programId, "lightType");
 	fillTypeId = glGetUniformLocation(programId, "fillType");

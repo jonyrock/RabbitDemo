@@ -16,11 +16,11 @@ public:
 	~Shaders();
 
 	GLuint programId;
-	GLuint vertexPosition_modelspaceId;
-	GLuint vertexNormal_modelspaceId;
-	
+	GLuint vertexPosition_modelspaceId, vertexNormal_modelspaceId,
+			flatPositionId, flatNormalId;
+
 	void update();
-	
+
 	void setColor(glm::vec3 color);
 	void setModel(glm::mat4 mat);
 	void setView(glm::mat4 mat);
@@ -31,8 +31,8 @@ private:
 	GLuint modelId, viewId, projectionId;
 	GLuint colorId, lightColorId, lightPositionId;
 
-	GLuint lightTypeId, fillTypeId, ambientId, diffuseId, specularId, specularPowerId, kcId,
-			klId, kqId;
+	GLuint lightTypeId, fillTypeId, ambientId, diffuseId, specularId,
+			specularPowerId, kcId, klId, kqId;
 
 	GLuint loadShaders(const char* verPath, const char* fragPath);
 

@@ -9,6 +9,8 @@ in vec3 vertexColor;
 in vec3 vertexNormal;
 in vec3 vertexPosition;
 
+flat in vec3 flatColor;
+
 uniform int fillType;
 
 out vec3 color;
@@ -16,14 +18,19 @@ out vec3 color;
 #include "res/computeLight.glsl"
 
 void main() {
-        
+	   	
+	if(fillType == 1) {
+		color = flatColor;
+	}
+
     if(fillType == 2) {
     	color = vertexColor;
-    	return;
     }
     
-    color = computeLight(
-    	vertexColor, vertexPosition, vertexNormal
-    );
-
+    if(fillType == 3) {
+    	color = computeLight(
+    		vertexColor, vertexPosition, vertexNormal
+    	);
+    } 
+    
 }
