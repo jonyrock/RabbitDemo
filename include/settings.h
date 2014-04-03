@@ -23,6 +23,7 @@ struct Settings {
 	FillType fillType;
 
 	float bgColor[3];
+
 	float planeColor[3];
 	float rabbitColor[3];
 	float lightColor[3];
@@ -45,12 +46,13 @@ struct Settings {
 		diffuse = 0.5f;
 		specular = 0.6f;
 		specularPower = 19.0f;
+
 		kc = 1.0f;
 		kl = 0.000001f;
 		kq = 0.0000000001f;
 
 		lightType = LT_PHONG;
-		fillType = FT_FLAT;
+		fillType = FT_PER_FRAGMENT;
 
 		bgColor[0] = 0.1f;
 		bgColor[1] = 0.2f;
@@ -68,9 +70,9 @@ struct Settings {
 		lightColor[1] = 0.98f;
 		lightColor[2] = 0.9f;
 
-		lightPosition[0] = 30.0f;
-		lightPosition[1] = 30.0f;
-		lightPosition[2] = 20.0f;
+		lightPosition[0] = 0.3f;
+		lightPosition[1] = 0.5f;
+		lightPosition[2] = 1.0f;
 
 		cursorXPos = 0;
 		cursorYPos = 0;

@@ -20,8 +20,8 @@ vec3 computeLight(vec3 color, vec3 position, vec3 normal) {
     vec3 L = normalize(mv(lightPosition) - position);
     float idiff = diffuse * max(dot(N, L), 0.0f);
     vec3 V = normalize(viewerPosition - position); 
-    vec3 R = (2 * dot(N, L) * N - L);
-    float d = length(lightPosition - position) * 1000 + 100;
+    vec3 R = 2 * dot(N, L) * N - L;
+    float d = length(vi(lightPosition) - position) * 1000;
     float intensity = 1.0f / (kc + kl * d + kq * d * d);
     // float intensity = 1.0f;
     float ispec = 0;
